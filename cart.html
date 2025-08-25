@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All Products | RedStore</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="navbar">
+        <div class="logo">
+          <a href="index.html"
+            ><img src="images/logo.png" alt="logo" width="125px"
+          /></a>
+        </div>
+        <nav>
+          <ul id="MenuItems">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="account.html">Account</a></li>
+          </ul>
+        </nav>
+        <a href="cart.html"
+          ><img src="images/cart.png" width="30px" height="30px"
+        /></a>
+        <img src="images/menu.png" class="menu-icon" onclick="menutoggle()" />
+      </div>
+    </div>
+
+    <!-- Cart items details -->
+    <div class="small-container cart-page">
+      <table id="cart-table">
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Subtotal</th>
+        </tr>
+        <!-- Cart items will be dynamically added here -->
+      </table>
+      <div
+        id="empty-cart-message"
+        style="
+          text-align: center;
+          color: #888;
+          font-size: 18px;
+          margin: 30px 0;
+          display: none;
+        "
+      >
+        Your cart is empty.
+      </div>
+      <div class="total-price">
+        <table id="total-table">
+          <tr>
+            <td>Subtotal</td>
+            <td id="subtotal-val">$150.00</td>
+          </tr>
+          <tr>
+            <td>Tax</td>
+            <td id="tax-val">$26.25</td>
+          </tr>
+          <tr>
+            <td>Total</td>
+            <td id="total-val">$176.25</td>
+          </tr>
+        </table>
+        <button
+          id="checkout-btn"
+          style="
+            margin-top: 20px;
+            padding: 10px 30px;
+            background: #ff523b;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+          "
+        >
+          Final Checkout
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="footer-col-1">
+            <h3>Download Our App</h3>
+            <p>Download App for Android and ios mobile phone.</p>
+            <div class="app-logo">
+              <img src="images/play-store.png" />
+              <img src="images/app-store.png" />
+            </div>
+          </div>
+          <div class="footer-col-2">
+            <img src="images/logo-white.png" />
+            <p>
+              Our Purpose Is To Sustainably Make the Pleasure and Benefits of
+              Sports Accessible to the Many.
+            </p>
+          </div>
+          <div class="footer-col-3">
+            <h3>Useful Links</h3>
+            <ul>
+              <li>Coupons</li>
+              <li>Blog Post</li>
+              <li>Return Policy</li>
+              <li>Join Affiliate</li>
+            </ul>
+          </div>
+          <div class="footer-col-4">
+            <h3>Follow Us</h3>
+            <ul>
+              <li>Facebook</li>
+              <li>Twitter</li>
+              <li>Instagram</li>
+              <li>Youtube</li>
+            </ul>
+          </div>
+        </div>
+        <hr />
+        <p class="copyright">Copyright 2020 - Samwit Adhikary</p>
+      </div>
+    </div>
+
+    <!-- javascript -->
+
+    <script>
+      var MenuItems = document.getElementById("MenuItems");
+      MenuItems.style.maxHeight = "0px";
+      function menutoggle() {
+        if (MenuItems.style.maxHeight == "0px") {
+          MenuItems.style.maxHeight = "200px";
+        } else {
+          MenuItems.style.maxHeight = "0px";
+        }
+      }
+
+      // Render cart from localStorage
+      function renderCart() {
+        var cart = JSON.parse(localStorage.getItem("cart") || "[]");
+        var cartTable = document.getElementById("cart-table");
+        // Remove all rows except the header
+        while (cartTable.rows.length > 1) {
+          cartTable.deleteRow(1);
+        }
+        var subtotal = 0;
+        if (cart.length === 0) {
+          document.getElementById("empty-cart-message").style.display = "block";
+        } else {
+          document.getElementById("empty-cart-message").style.display = "none";
+          cart.forEach(function (item, idx) {
+            var row = cartTable.insertRow();
+            // Product cell
+            var cell1 = row.insertCell();
+            cell1.innerHTML =
+              `<div class="cart-info"><img src="${item.img}" style="width:80px;">` +
+              `<div><p>${item.name}</p><small>Price: $${item.price.toFixed(
+                2
+              )}</small><br>` +
+              (item.size && item.size !== "Select Size"
+                ? `<small>Size: ${item.size}</small><br>`
+                : "") +
+              `<a href="#" class="remove-btn" data-idx="${idx}">Remove</a></div></div>`;
+            // Quantity cell
+            var cell2 = row.insertCell();
+            cell2.innerHTML = `<input type="number" min="1" value="${item.qty}" style="width:50px;">`;
+            // Subtotal cell
+            var cell3 = row.insertCell();
+            var itemTotal = item.price * item.qty;
+            cell3.innerText = `$${itemTotal.toFixed(2)}`;
+            subtotal += itemTotal;
+          });
+        }
+        // Update totals
+        var tax = +(subtotal * 0.175).toFixed(2);
+        var total = +(subtotal + tax).toFixed(2);
+        document.getElementById(
+          "subtotal-val"
+        ).innerText = `$${subtotal.toFixed(2)}`;
+        document.getElementById("tax-val").innerText = `$${tax.toFixed(2)}`;
+        document.getElementById("total-val").innerText = `$${total.toFixed(2)}`;
+
+        // Remove button logic
+        document.querySelectorAll(".remove-btn").forEach(function (btn) {
+          btn.addEventListener("click", function (e) {
+            e.preventDefault();
+            var idx = parseInt(btn.getAttribute("data-idx"));
+            cart.splice(idx, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            renderCart();
+          });
+        });
+
+        // Quantity change logic
+        document
+          .querySelectorAll('#cart-table input[type="number"]')
+          .forEach(function (input, i) {
+            input.addEventListener("change", function () {
+              var val = parseInt(input.value);
+              if (val < 1) val = 1;
+              cart[i].qty = val;
+              localStorage.setItem("cart", JSON.stringify(cart));
+              renderCart();
+            });
+          });
+      }
+
+      // Checkout button
+      document
+        .getElementById("checkout-btn")
+        .addEventListener("click", function () {
+          if (JSON.parse(localStorage.getItem("cart") || "[]").length === 0) {
+            alert("Your cart is empty!");
+          } else {
+            alert(
+              "Thank you for your purchase! (Checkout functionality to be implemented)"
+            );
+            localStorage.removeItem("cart");
+            renderCart();
+          }
+        });
+
+      // Call on page load
+      renderCart();
+    </script>
+  </body>
+</html>

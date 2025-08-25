@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact | RedStore</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="navbar">
+        <div class="logo">
+          <a href="index.html"
+            ><img src="images/logo.png" alt="logo" width="125px"
+          /></a>
+        </div>
+        <nav>
+          <ul id="MenuItems">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="account.html">Account</a></li>
+          </ul>
+        </nav>
+        <a href="cart.html"
+          ><img src="images/cart.png" width="30px" height="30px"
+        /></a>
+      </div>
+    </div>
+    <div class="small-container" style="margin-top: 40px; max-width: 600px">
+      <h1>Contact Us</h1>
+      <form style="margin-top: 30px">
+        <label for="name">Name:</label><br />
+        <input
+          type="text"
+          id="name"
+          name="name"
+          style="width: 100%; padding: 8px; margin-bottom: 15px"
+        /><br />
+        <label for="email">Email:</label><br />
+        <input
+          type="email"
+          id="email"
+          name="email"
+          style="width: 100%; padding: 8px; margin-bottom: 15px"
+        /><br />
+        <label for="message">Message:</label><br />
+        <textarea
+          id="message"
+          name="message"
+          rows="5"
+          style="width: 100%; padding: 8px; margin-bottom: 15px"
+        ></textarea
+        ><br />
+        <button type="submit" class="btn" style="padding: 10px 30px">
+          Send
+        </button>
+      </form>
+      <p style="margin-top: 30px">
+        Or email us at
+        <a href="mailto:support@redstore.com">support@redstore.com</a>
+      </p>
+    </div>
+  </body>
+</html>
